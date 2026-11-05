@@ -1,0 +1,1446 @@
+[
+  {
+    "id": "yeongmok",
+    "name": "영목항",
+    "region": "서해",
+    "tideCode": "DT_0025",
+    "tideStation": "보령",
+    "lat": 36.4049,
+    "lon": 126.4215,
+    "favoriteDefault": true
+  },
+  {
+    "id": "ocheon",
+    "name": "오천항",
+    "region": "서해",
+    "tideCode": "DT_0025",
+    "tideStation": "보령",
+    "lat": 36.4373,
+    "lon": 126.524,
+    "favoriteDefault": true
+  },
+  {
+    "id": "incheon-port",
+    "name": "인천항",
+    "region": "서해",
+    "tideCode": "DT_0001",
+    "tideStation": "인천",
+    "lat": 37.4519,
+    "lon": 126.5922
+  },
+  {
+    "id": "muchangpo-port",
+    "name": "무창포항",
+    "region": "서해",
+    "tideCode": "SO_1261",
+    "tideStation": "무창포항",
+    "lat": 36.2458,
+    "lon": 126.5367
+  },
+  {
+    "id": "daecheon-port",
+    "name": "대천항",
+    "region": "서해",
+    "tideCode": "DT_0025",
+    "tideStation": "보령",
+    "lat": 36.3187,
+    "lon": 126.5048
+  },
+  {
+    "id": "namdang",
+    "name": "남당항",
+    "region": "서해",
+    "tideCode": "DT_0025",
+    "tideStation": "보령",
+    "lat": 36.538,
+    "lon": 126.4694,
+    "favoriteDefault": true
+  },
+  {
+    "id": "jeongok",
+    "name": "전곡항",
+    "region": "서해",
+    "tideCode": "DT_0008",
+    "tideStation": "안산",
+    "lat": 37.187,
+    "lon": 126.6538
+  },
+  {
+    "id": "pyeongtaek-port",
+    "name": "평택항",
+    "region": "서해",
+    "tideCode": "DT_0002",
+    "tideStation": "평택",
+    "lat": 36.967,
+    "lon": 126.821
+  },
+  {
+    "id": "samgilpo",
+    "name": "삼길포",
+    "region": "서해",
+    "tideCode": "SO_1270",
+    "tideStation": "삼길포항",
+    "lat": 37.004,
+    "lon": 126.4525,
+    "favoriteDefault": true
+  },
+  {
+    "id": "sinjindo",
+    "name": "신진도",
+    "region": "서해",
+    "tideCode": "DT_0067",
+    "tideStation": "안흥",
+    "lat": 36.6807,
+    "lon": 126.1343
+  },
+  {
+    "id": "anheung-port",
+    "name": "안흥항",
+    "region": "서해",
+    "tideCode": "DT_0067",
+    "tideStation": "안흥",
+    "lat": 36.6741,
+    "lon": 126.1349
+  },
+  {
+    "id": "hongwon",
+    "name": "홍원항",
+    "region": "서해",
+    "tideCode": "DT_0051",
+    "tideStation": "서천마량",
+    "lat": 36.1589,
+    "lon": 126.5015,
+    "favoriteDefault": true
+  },
+  {
+    "id": "bieung",
+    "name": "비응항",
+    "region": "서해",
+    "tideCode": "DT_0018",
+    "tideStation": "군산",
+    "lat": 35.9458,
+    "lon": 126.5318,
+    "favoriteDefault": true
+  },
+  {
+    "id": "gyeokpo-port",
+    "name": "격포항",
+    "region": "서해",
+    "tideCode": "SO_1262",
+    "tideStation": "격포항",
+    "lat": 35.6231,
+    "lon": 126.4697
+  },
+  {
+    "id": "khoa-dt-0001",
+    "name": "인천",
+    "region": "서해",
+    "tideCode": "DT_0001",
+    "tideStation": "인천",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0566",
+    "name": "송공항",
+    "region": "서해",
+    "tideCode": "SO_0566",
+    "tideStation": "송공항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0002",
+    "name": "평택",
+    "region": "서해",
+    "tideCode": "DT_0002",
+    "tideStation": "평택",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0567",
+    "name": "쉬미항",
+    "region": "서해",
+    "tideCode": "SO_0567",
+    "tideStation": "쉬미항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0003",
+    "name": "영광",
+    "region": "서해",
+    "tideCode": "DT_0003",
+    "tideStation": "영광",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0568",
+    "name": "백야도",
+    "region": "남해",
+    "tideCode": "SO_0568",
+    "tideStation": "백야도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0004",
+    "name": "제주",
+    "region": "제주",
+    "tideCode": "DT_0004",
+    "tideStation": "제주",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0569",
+    "name": "남포항",
+    "region": "서해",
+    "tideCode": "SO_0569",
+    "tideStation": "남포항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0005",
+    "name": "부산",
+    "region": "남해",
+    "tideCode": "DT_0005",
+    "tideStation": "부산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0570",
+    "name": "광암항",
+    "region": "남해",
+    "tideCode": "SO_0570",
+    "tideStation": "광암항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0006",
+    "name": "묵호",
+    "region": "동해",
+    "tideCode": "DT_0006",
+    "tideStation": "묵호",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0571",
+    "name": "거제외포",
+    "region": "남해",
+    "tideCode": "SO_0571",
+    "tideStation": "거제외포",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0007",
+    "name": "목포",
+    "region": "서해",
+    "tideCode": "DT_0007",
+    "tideStation": "목포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0572",
+    "name": "읍천항",
+    "region": "동해",
+    "tideCode": "SO_0572",
+    "tideStation": "읍천항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0008",
+    "name": "안산",
+    "region": "서해",
+    "tideCode": "DT_0008",
+    "tideStation": "안산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0573",
+    "name": "양포항",
+    "region": "동해",
+    "tideCode": "SO_0573",
+    "tideStation": "양포항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0010",
+    "name": "서귀포",
+    "region": "제주",
+    "tideCode": "DT_0010",
+    "tideStation": "서귀포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0574",
+    "name": "백사장항",
+    "region": "서해",
+    "tideCode": "SO_0574",
+    "tideStation": "백사장항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0011",
+    "name": "후포",
+    "region": "동해",
+    "tideCode": "DT_0011",
+    "tideStation": "후포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0576",
+    "name": "화봉리",
+    "region": "서해",
+    "tideCode": "SO_0576",
+    "tideStation": "화봉리",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0012",
+    "name": "속초",
+    "region": "동해",
+    "tideCode": "DT_0012",
+    "tideStation": "속초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0577",
+    "name": "가거도",
+    "region": "서해",
+    "tideCode": "SO_0577",
+    "tideStation": "가거도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0013",
+    "name": "울릉도",
+    "region": "동해",
+    "tideCode": "DT_0013",
+    "tideStation": "울릉도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0578",
+    "name": "소매물도",
+    "region": "남해",
+    "tideCode": "SO_0578",
+    "tideStation": "소매물도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0014",
+    "name": "통영",
+    "region": "남해",
+    "tideCode": "DT_0014",
+    "tideStation": "통영",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0581",
+    "name": "강양항",
+    "region": "동해",
+    "tideCode": "SO_0581",
+    "tideStation": "강양항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0016",
+    "name": "여수",
+    "region": "남해",
+    "tideCode": "DT_0016",
+    "tideStation": "여수",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0631",
+    "name": "암태도",
+    "region": "서해",
+    "tideCode": "SO_0631",
+    "tideStation": "암태도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0017",
+    "name": "대산",
+    "region": "서해",
+    "tideCode": "DT_0017",
+    "tideStation": "대산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0699",
+    "name": "천리포항",
+    "region": "서해",
+    "tideCode": "SO_0699",
+    "tideStation": "천리포항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0018",
+    "name": "군산",
+    "region": "서해",
+    "tideCode": "DT_0018",
+    "tideStation": "군산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0700",
+    "name": "호도",
+    "region": "서해",
+    "tideCode": "SO_0700",
+    "tideStation": "호도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0020",
+    "name": "울산",
+    "region": "동해",
+    "tideCode": "DT_0020",
+    "tideStation": "울산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0701",
+    "name": "홍도항",
+    "region": "남해",
+    "tideCode": "SO_0701",
+    "tideStation": "홍도항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0021",
+    "name": "추자도",
+    "region": "제주",
+    "tideCode": "DT_0021",
+    "tideStation": "추자도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0702",
+    "name": "진도옥도",
+    "region": "서해",
+    "tideCode": "SO_0702",
+    "tideStation": "진도옥도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0022",
+    "name": "성산포",
+    "region": "제주",
+    "tideCode": "DT_0022",
+    "tideStation": "성산포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0703",
+    "name": "땅끝항",
+    "region": "남해",
+    "tideCode": "SO_0703",
+    "tideStation": "땅끝항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0023",
+    "name": "모슬포",
+    "region": "제주",
+    "tideCode": "DT_0023",
+    "tideStation": "모슬포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0704",
+    "name": "소안항",
+    "region": "남해",
+    "tideCode": "SO_0704",
+    "tideStation": "소안항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0024",
+    "name": "장항",
+    "region": "서해",
+    "tideCode": "DT_0024",
+    "tideStation": "장항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0705",
+    "name": "마량항",
+    "region": "남해",
+    "tideCode": "SO_0705",
+    "tideStation": "마량항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0025",
+    "name": "보령",
+    "region": "서해",
+    "tideCode": "DT_0025",
+    "tideStation": "보령",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0706",
+    "name": "청산도",
+    "region": "남해",
+    "tideCode": "SO_0706",
+    "tideStation": "청산도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0026",
+    "name": "고흥발포",
+    "region": "남해",
+    "tideCode": "DT_0026",
+    "tideStation": "고흥발포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0707",
+    "name": "시산항",
+    "region": "남해",
+    "tideCode": "SO_0707",
+    "tideStation": "시산항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0027",
+    "name": "완도",
+    "region": "남해",
+    "tideCode": "DT_0027",
+    "tideStation": "완도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0708",
+    "name": "안도항",
+    "region": "남해",
+    "tideCode": "SO_0708",
+    "tideStation": "안도항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0028",
+    "name": "진도",
+    "region": "남해",
+    "tideCode": "DT_0028",
+    "tideStation": "진도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0709",
+    "name": "두문포",
+    "region": "남해",
+    "tideCode": "SO_0709",
+    "tideStation": "두문포",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0029",
+    "name": "거제도",
+    "region": "남해",
+    "tideCode": "DT_0029",
+    "tideStation": "거제도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0710",
+    "name": "봉우항",
+    "region": "남해",
+    "tideCode": "SO_0710",
+    "tideStation": "봉우항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0031",
+    "name": "거문도",
+    "region": "남해",
+    "tideCode": "DT_0031",
+    "tideStation": "거문도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0711",
+    "name": "창선도",
+    "region": "남해",
+    "tideCode": "SO_0711",
+    "tideStation": "창선도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0032",
+    "name": "강화대교",
+    "region": "서해",
+    "tideCode": "DT_0032",
+    "tideStation": "강화대교",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0712",
+    "name": "능양항",
+    "region": "남해",
+    "tideCode": "SO_0712",
+    "tideStation": "능양항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0035",
+    "name": "흑산도",
+    "region": "서해",
+    "tideCode": "DT_0035",
+    "tideStation": "흑산도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0731",
+    "name": "대진항",
+    "region": "동해",
+    "tideCode": "SO_0731",
+    "tideStation": "대진항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0036",
+    "name": "대청도",
+    "region": "서해",
+    "tideCode": "DT_0036",
+    "tideStation": "대청도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0732",
+    "name": "남애항",
+    "region": "동해",
+    "tideCode": "SO_0732",
+    "tideStation": "남애항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0037",
+    "name": "어청도",
+    "region": "서해",
+    "tideCode": "DT_0037",
+    "tideStation": "어청도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0733",
+    "name": "강릉항",
+    "region": "동해",
+    "tideCode": "SO_0733",
+    "tideStation": "강릉항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0038",
+    "name": "굴업도",
+    "region": "서해",
+    "tideCode": "DT_0038",
+    "tideStation": "굴업도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0734",
+    "name": "궁촌항",
+    "region": "동해",
+    "tideCode": "SO_0734",
+    "tideStation": "궁촌항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0039",
+    "name": "왕돌초",
+    "region": "동해",
+    "tideCode": "DT_0039",
+    "tideStation": "왕돌초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0735",
+    "name": "죽변항",
+    "region": "동해",
+    "tideCode": "SO_0735",
+    "tideStation": "죽변항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0903",
+    "name": "독도",
+    "region": "동해",
+    "tideCode": "DT_0903",
+    "tideStation": "독도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0736",
+    "name": "축산항",
+    "region": "동해",
+    "tideCode": "SO_0736",
+    "tideStation": "축산항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0041",
+    "name": "복사초",
+    "region": "서해",
+    "tideCode": "DT_0041",
+    "tideStation": "복사초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0737",
+    "name": "강구항",
+    "region": "동해",
+    "tideCode": "SO_0737",
+    "tideStation": "강구항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0042",
+    "name": "교본초",
+    "region": "서해",
+    "tideCode": "DT_0042",
+    "tideStation": "교본초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0739",
+    "name": "도장항",
+    "region": "남해",
+    "tideCode": "SO_0739",
+    "tideStation": "도장항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0043",
+    "name": "영흥도",
+    "region": "서해",
+    "tideCode": "DT_0043",
+    "tideStation": "영흥도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0740",
+    "name": "보옥항",
+    "region": "남해",
+    "tideCode": "SO_0740",
+    "tideStation": "보옥항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0044",
+    "name": "영종대교",
+    "region": "서해",
+    "tideCode": "DT_0044",
+    "tideStation": "영종대교",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0752",
+    "name": "검산항",
+    "region": "서해",
+    "tideCode": "SO_0752",
+    "tideStation": "검산항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0046",
+    "name": "쌍정초",
+    "region": "서해",
+    "tideCode": "DT_0046",
+    "tideStation": "쌍정초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0753",
+    "name": "하의도웅곡",
+    "region": "서해",
+    "tideCode": "SO_0753",
+    "tideStation": "하의도웅곡",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0047",
+    "name": "도농탄",
+    "region": "서해",
+    "tideCode": "DT_0047",
+    "tideStation": "도농탄",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0754",
+    "name": "평호리",
+    "region": "서해",
+    "tideCode": "SO_0754",
+    "tideStation": "평호리",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0048",
+    "name": "속초등표",
+    "region": "동해",
+    "tideCode": "DT_0048",
+    "tideStation": "속초등표",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0755",
+    "name": "원동항",
+    "region": "남해",
+    "tideCode": "SO_0755",
+    "tideStation": "원동항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0049",
+    "name": "광양",
+    "region": "남해",
+    "tideCode": "DT_0049",
+    "tideStation": "광양",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0756",
+    "name": "사초항",
+    "region": "서해",
+    "tideCode": "SO_0756",
+    "tideStation": "사초항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0050",
+    "name": "태안",
+    "region": "서해",
+    "tideCode": "DT_0050",
+    "tideStation": "태안",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0757",
+    "name": "안남리",
+    "region": "서해",
+    "tideCode": "SO_0757",
+    "tideStation": "안남리",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0051",
+    "name": "서천마량",
+    "region": "서해",
+    "tideCode": "DT_0051",
+    "tideStation": "서천마량",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0758",
+    "name": "달천도",
+    "region": "남해",
+    "tideCode": "SO_0758",
+    "tideStation": "달천도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0052",
+    "name": "인천송도",
+    "region": "서해",
+    "tideCode": "DT_0052",
+    "tideStation": "인천송도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0759",
+    "name": "장문리",
+    "region": "남해",
+    "tideCode": "SO_0759",
+    "tideStation": "장문리",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0054",
+    "name": "진해",
+    "region": "남해",
+    "tideCode": "DT_0054",
+    "tideStation": "진해",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0760",
+    "name": "오산항",
+    "region": "남해",
+    "tideCode": "SO_0760",
+    "tideStation": "오산항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0056",
+    "name": "부산항신항",
+    "region": "남해",
+    "tideCode": "DT_0056",
+    "tideStation": "부산항신항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0761",
+    "name": "녹동항",
+    "region": "남해",
+    "tideCode": "SO_0761",
+    "tideStation": "녹동항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0057",
+    "name": "동해항",
+    "region": "동해",
+    "tideCode": "DT_0057",
+    "tideStation": "동해항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1248",
+    "name": "신안옥도",
+    "region": "서해",
+    "tideCode": "SO_1248",
+    "tideStation": "신안옥도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0058",
+    "name": "경인항",
+    "region": "서해",
+    "tideCode": "DT_0058",
+    "tideStation": "경인항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1249",
+    "name": "독거도",
+    "region": "서해",
+    "tideCode": "SO_1249",
+    "tideStation": "독거도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0059",
+    "name": "백령도",
+    "region": "서해",
+    "tideCode": "DT_0059",
+    "tideStation": "백령도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1250",
+    "name": "평도",
+    "region": "서해",
+    "tideCode": "SO_1250",
+    "tideStation": "평도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0060",
+    "name": "연평도",
+    "region": "서해",
+    "tideCode": "DT_0060",
+    "tideStation": "연평도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1251",
+    "name": "낙월도",
+    "region": "서해",
+    "tideCode": "SO_1251",
+    "tideStation": "낙월도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0061",
+    "name": "삼천포",
+    "region": "남해",
+    "tideCode": "DT_0061",
+    "tideStation": "삼천포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1252",
+    "name": "외연도항",
+    "region": "서해",
+    "tideCode": "SO_1252",
+    "tideStation": "외연도항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0062",
+    "name": "마산",
+    "region": "남해",
+    "tideCode": "DT_0062",
+    "tideStation": "마산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1253",
+    "name": "상왕등도",
+    "region": "서해",
+    "tideCode": "SO_1253",
+    "tideStation": "상왕등도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0063",
+    "name": "가덕도",
+    "region": "남해",
+    "tideCode": "DT_0063",
+    "tideStation": "가덕도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1254",
+    "name": "만재도",
+    "region": "서해",
+    "tideCode": "SO_1254",
+    "tideStation": "만재도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0064",
+    "name": "교동대교",
+    "region": "서해",
+    "tideCode": "DT_0064",
+    "tideStation": "교동대교",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1255",
+    "name": "상태도",
+    "region": "서해",
+    "tideCode": "SO_1255",
+    "tideStation": "상태도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0065",
+    "name": "덕적도",
+    "region": "서해",
+    "tideCode": "DT_0065",
+    "tideStation": "덕적도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1256",
+    "name": "어류정항",
+    "region": "서해",
+    "tideCode": "SO_1256",
+    "tideStation": "어류정항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0067",
+    "name": "안흥",
+    "region": "서해",
+    "tideCode": "DT_0067",
+    "tideStation": "안흥",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1257",
+    "name": "강화하리",
+    "region": "서해",
+    "tideCode": "SO_1257",
+    "tideStation": "강화하리",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0068",
+    "name": "위도",
+    "region": "서해",
+    "tideCode": "DT_0068",
+    "tideStation": "위도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1258",
+    "name": "잠진도",
+    "region": "서해",
+    "tideCode": "SO_1258",
+    "tideStation": "잠진도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0091",
+    "name": "포항",
+    "region": "동해",
+    "tideCode": "DT_0091",
+    "tideStation": "포항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1259",
+    "name": "자월도",
+    "region": "서해",
+    "tideCode": "SO_1259",
+    "tideStation": "자월도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0092",
+    "name": "여호항",
+    "region": "남해",
+    "tideCode": "DT_0092",
+    "tideStation": "여호항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1260",
+    "name": "방포항",
+    "region": "서해",
+    "tideCode": "SO_1260",
+    "tideStation": "방포항",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0093",
+    "name": "소무의도",
+    "region": "서해",
+    "tideCode": "DT_0093",
+    "tideStation": "소무의도",
+    "official": true
+  },
+  {
+    "id": "khoa-dt-0094",
+    "name": "서거차도",
+    "region": "서해",
+    "tideCode": "DT_0094",
+    "tideStation": "서거차도",
+    "official": true
+  },
+  {
+    "id": "khoa-ie-0060",
+    "name": "이어도",
+    "region": "제주",
+    "tideCode": "IE_0060",
+    "tideStation": "이어도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1263",
+    "name": "구시포항",
+    "region": "서해",
+    "tideCode": "SO_1263",
+    "tideStation": "구시포항",
+    "official": true
+  },
+  {
+    "id": "khoa-ie-0061",
+    "name": "신안가거초",
+    "region": "서해",
+    "tideCode": "IE_0061",
+    "tideStation": "신안가거초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1264",
+    "name": "계마항",
+    "region": "서해",
+    "tideCode": "SO_1264",
+    "tideStation": "계마항",
+    "official": true
+  },
+  {
+    "id": "khoa-ie-0062",
+    "name": "옹진소청초",
+    "region": "서해",
+    "tideCode": "IE_0062",
+    "tideStation": "옹진소청초",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1265",
+    "name": "송이도",
+    "region": "서해",
+    "tideCode": "SO_1265",
+    "tideStation": "송이도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0326",
+    "name": "미조항",
+    "region": "남해",
+    "tideCode": "SO_0326",
+    "tideStation": "미조항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1266",
+    "name": "남열항",
+    "region": "남해",
+    "tideCode": "SO_1266",
+    "tideStation": "남열항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0537",
+    "name": "벽파진",
+    "region": "남해",
+    "tideCode": "SO_0537",
+    "tideStation": "벽파진",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1267",
+    "name": "구룡포항",
+    "region": "동해",
+    "tideCode": "SO_1267",
+    "tideStation": "구룡포항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0538",
+    "name": "안마도",
+    "region": "서해",
+    "tideCode": "SO_0538",
+    "tideStation": "안마도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1268",
+    "name": "궁평항",
+    "region": "서해",
+    "tideCode": "SO_1268",
+    "tideStation": "궁평항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0539",
+    "name": "강화외포",
+    "region": "서해",
+    "tideCode": "SO_0539",
+    "tideStation": "강화외포",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1269",
+    "name": "연도항",
+    "region": "남해",
+    "tideCode": "SO_1269",
+    "tideStation": "연도항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0540",
+    "name": "호산항",
+    "region": "동해",
+    "tideCode": "SO_0540",
+    "tideStation": "호산항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1270",
+    "name": "삼길포항",
+    "region": "서해",
+    "tideCode": "SO_1270",
+    "tideStation": "삼길포항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0547",
+    "name": "말도",
+    "region": "서해",
+    "tideCode": "SO_0547",
+    "tideStation": "말도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1271",
+    "name": "어은돌항",
+    "region": "서해",
+    "tideCode": "SO_1271",
+    "tideStation": "어은돌항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0548",
+    "name": "우이도",
+    "region": "서해",
+    "tideCode": "SO_0548",
+    "tideStation": "우이도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1272",
+    "name": "다대포항",
+    "region": "남해",
+    "tideCode": "SO_1272",
+    "tideStation": "다대포항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0549",
+    "name": "초도",
+    "region": "남해",
+    "tideCode": "SO_0549",
+    "tideStation": "초도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1273",
+    "name": "장호항",
+    "region": "동해",
+    "tideCode": "SO_1273",
+    "tideStation": "장호항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0550",
+    "name": "나로도",
+    "region": "남해",
+    "tideCode": "SO_0550",
+    "tideStation": "나로도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1274",
+    "name": "거진항",
+    "region": "동해",
+    "tideCode": "SO_1274",
+    "tideStation": "거진항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0551",
+    "name": "여서도",
+    "region": "남해",
+    "tideCode": "SO_0551",
+    "tideStation": "여서도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1275",
+    "name": "공현진항",
+    "region": "동해",
+    "tideCode": "SO_1275",
+    "tideStation": "공현진항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0552",
+    "name": "고현항",
+    "region": "남해",
+    "tideCode": "SO_0552",
+    "tideStation": "고현항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1276",
+    "name": "아야진항",
+    "region": "동해",
+    "tideCode": "SO_1276",
+    "tideStation": "아야진항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0553",
+    "name": "해운대",
+    "region": "남해",
+    "tideCode": "SO_0553",
+    "tideStation": "해운대",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1277",
+    "name": "화순항",
+    "region": "제주",
+    "tideCode": "SO_1277",
+    "tideStation": "화순항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0554",
+    "name": "영종왕산",
+    "region": "서해",
+    "tideCode": "SO_0554",
+    "tideStation": "영종왕산",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1278",
+    "name": "원평항",
+    "region": "서해",
+    "tideCode": "SO_1278",
+    "tideStation": "원평항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0555",
+    "name": "서망항",
+    "region": "남해",
+    "tideCode": "SO_0555",
+    "tideStation": "서망항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1279",
+    "name": "어란진항",
+    "region": "남해",
+    "tideCode": "SO_1279",
+    "tideStation": "어란진항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0562",
+    "name": "승봉도",
+    "region": "서해",
+    "tideCode": "SO_0562",
+    "tideStation": "승봉도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1280",
+    "name": "덕산항",
+    "region": "남해",
+    "tideCode": "SO_1280",
+    "tideStation": "덕산항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0563",
+    "name": "울도",
+    "region": "서해",
+    "tideCode": "SO_0563",
+    "tideStation": "울도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1281",
+    "name": "임원항",
+    "region": "동해",
+    "tideCode": "SO_1281",
+    "tideStation": "임원항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0564",
+    "name": "국화도",
+    "region": "서해",
+    "tideCode": "SO_0564",
+    "tideStation": "국화도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1282",
+    "name": "선재도",
+    "region": "서해",
+    "tideCode": "SO_1282",
+    "tideStation": "선재도",
+    "official": true
+  },
+  {
+    "id": "khoa-so-0565",
+    "name": "향화도항",
+    "region": "서해",
+    "tideCode": "SO_0565",
+    "tideStation": "향화도항",
+    "official": true
+  },
+  {
+    "id": "khoa-so-1283",
+    "name": "사천진항",
+    "region": "동해",
+    "tideCode": "SO_1283",
+    "tideStation": "사천진항",
+    "official": true
+  }
+]

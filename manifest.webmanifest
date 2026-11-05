@@ -1,38 +1,26 @@
 {
   "name": "피캠스 출조 물때·날씨",
   "short_name": "출조체크",
-  "description": "서해 주요 항구의 물때, 만조·간조, 날씨, 바람, 파고, 강수량을 빠르게 확인합니다.",
+  "description": "전국 조석예보지점 물때·만조·간조·날씨·바람·파고·강수 확인",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f2f6fb",
-  "theme_color": "#0b6efd",
+  "background_color": "#f4f7fb",
+  "theme_color": "#f4f7fb",
   "lang": "ko-KR",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icon-180.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "id": "./",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
   ]
 }

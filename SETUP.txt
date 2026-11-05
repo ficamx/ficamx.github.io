@@ -1,0 +1,17 @@
+피캠스 출조체크 v5 (공유용 / 모바일 최적화)
+
+1) 이 폴더의 내용물을 GitHub ficamx.github.io 저장소 루트에 업로드합니다.
+2) GitHub 저장소 Settings > Secrets and variables > Actions > New repository secret
+   - Name: KHOA_SERVICE_KEY
+   - Secret: 공공데이터포털 일반 인증키
+3) Actions > Update tide forecast data > Run workflow 를 1회 실행합니다.
+4) 이후 매일 02:15(KST) 약 50일 범위의 공식 조석예보 데이터가 자동 갱신됩니다.
+5) 방문자는 인증키 입력 없이 https://ficamx.github.io 에서 바로 사용합니다.
+
+모바일 화면 구성
+- FICAMX / 출조 물때·날씨 헤더 유지
+- 항구명 드롭다운 + 검색 + 즐겨찾기
+- 국립해양조사원 조석예보 지점 전체 + 실출조 별칭(오천항/영목항 등)
+- 날짜 한 줄 + 달력 버튼
+- 물때/물흐름 + 만조/간조 4개를 한 카드에 압축
+- 시간별 날씨는 2~3개 카드가 보이는 가로 스와이프
