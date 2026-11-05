@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b6efd" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="출조체크" />
+  <meta name="description" content="서해 주요 항구 물때·공식 만조·간조·날씨·바람·파고·강수량을 한 화면에서 확인하는 출조용 앱" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>피캠스 출조체크</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">FICAMX</p>
+        <h1>출조 물때·날씨</h1>
+      </div>
+      <div class="top-actions">
+        <button id="settingsBtn" class="icon-btn" type="button" aria-label="API 설정">⚙</button>
+        <button id="installBtn" class="install-btn" type="button" aria-label="홈 화면 설치">홈화면 설치</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel port-panel">
+        <div class="section-head">
+          <div>
+            <span class="section-label">출조지</span>
+            <strong id="selectedPortLabel">오천항</strong>
+          </div>
+          <button id="portToggle" class="text-btn" type="button">항구 변경</button>
+        </div>
+        <div id="portGrid" class="port-grid" aria-label="항구 선택"></div>
+      </section>
+
+      <section class="panel date-panel">
+        <div class="section-head">
+          <div>
+            <span class="section-label">날짜 선택</span>
+            <strong id="selectedDateLong"></strong>
+          </div>
+          <label class="date-picker-label">
+            달력
+            <input id="datePicker" type="date" />
+          </label>
+        </div>
+        <div id="dateStrip" class="date-strip"></div>
+      </section>
+
+      <section id="statusBanner" class="status-banner hidden" role="status"></section>
+
+      <section class="summary-grid">
+        <article class="panel tide-summary">
+          <div class="summary-title-row">
+            <div>
+              <span class="section-label">물때</span>
+              <div class="tide-name-row">
+                <strong id="tideName" class="tide-name">-</strong>
+                <span id="lunarDate" class="lunar-date"></span>
+              </div>
+            </div>
+            <div class="flow-box">
+              <span>물흐름</span>
+              <strong id="flowPercent">-%</strong>
+            </div>
+          </div>
+          <div class="flow-track"><span id="flowBar"></span></div>
+          <p class="fineprint">물흐름은 익숙한 서해 물때 참고 지수로 표시합니다.</p>
+        </article>
+
+        <article class="panel day-summary">
+          <span class="section-label">하루 요약</span>
+          <div class="day-metrics">
+            <div><span>최저 / 최고</span><strong id="tempRange">-</strong></div>
+            <div><span>최대 바람</span><strong id="maxWind">-</strong></div>
+            <div><span>최대 파고</span><strong id="maxWave">-</strong></div>
+            <div><span>강수량</span><strong id="rainTotal">-</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel tides-panel">
+        <div class="section-head compact">
+          <div>
+            <span class="section-label">만조 · 간조</span>
+            <strong>시간 / 조위 / 고저차</strong>
+          </div>
+          <span id="tideSourceBadge" class="source-badge official">국립해양조사원 공식</span>
+        </div>
+        <div id="tideStationLabel" class="station-label">공식 조석 기준: 보령 (DT_0025)</div>
+        <div id="tideEvents" class="tide-events">
+          <div class="loading-card"></div><div class="loading-card"></div><div class="loading-card"></div><div class="loading-card"></div>
+        </div>
+        <p class="fineprint">▲ 빨강은 들물·만조, ▼ 파랑은 썰물·간조입니다. 고저차는 직전 만·간조와의 조위 차이입니다.</p>
+      </section>
+
+      <section class="panel hourly-panel">
+        <div class="section-head compact">
+          <div>
+            <span class="section-label">시간별 출조 날씨</span>
+            <strong>날씨 · 바람 · 파고 · 강수</strong>
+          </div>
+          <span class="source-badge">3시간 간격</span>
+        </div>
+        <div id="hourlyWeather" class="hourly-scroll" aria-label="시간별 날씨"></div>
+      </section>
+
+      <section class="panel legend-panel">
+        <div class="legend"><span class="triangle up">▲</span><span>들물 · 상승</span></div>
+        <div class="legend"><span class="triangle down">▼</span><span>썰물 · 하강</span></div>
+        <div class="data-source">조석: 국립해양조사원 · 날씨/파고: Open-Meteo · 물때/물흐름: 서해 물때 참고식</div>
+      </section>
+    </main>
+
+    <footer>
+      <span>피캠스 출조체크 v2</span>
+      <button id="refreshBtn" class="text-btn" type="button">새로고침</button>
+    </footer>
+  </div>
+
+  <dialog id="settingsDialog" class="install-dialog">
+    <div class="dialog-body">
+      <h2>공식 조석 API 설정</h2>
+      <p>공공데이터포털에서 발급받은 <b>일반 인증키</b>를 이 휴대폰에 한 번 저장합니다. 인증키는 앱 파일에 포함하지 않고 현재 브라우저에만 보관됩니다.</p>
+      <label class="input-label" for="apiKeyInput">국립해양조사원 API 인증키</label>
+      <input id="apiKeyInput" class="api-key-input" type="password" autocomplete="off" />
+      <div id="apiKeyState" class="key-state"></div>
+      <div class="dialog-actions">
+        <button id="clearApiKeyBtn" class="secondary-btn" type="button">저장키 삭제</button>
+        <button id="saveApiKeyBtn" class="primary-btn inline" type="button">저장</button>
+      </div>
+      <button id="closeSettingsDialog" class="text-btn dialog-close" type="button">닫기</button>
+    </div>
+  </dialog>
+
+  <dialog id="installDialog" class="install-dialog">
+    <div class="dialog-body">
+      <h2>홈 화면에 설치</h2>
+      <p id="installGuide">브라우저 메뉴에서 홈 화면에 추가하면 앱처럼 바로 열 수 있습니다.</p>
+      <button id="closeInstallDialog" class="primary-btn" type="button">확인</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

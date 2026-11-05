@@ -1,0 +1,126 @@
+:root {
+  --bg: #f2f6fb;
+  --panel: #ffffff;
+  --ink: #122033;
+  --muted: #718096;
+  --line: #e4eaf1;
+  --blue: #0b6efd;
+  --blue-soft: #eaf2ff;
+  --red: #f04438;
+  --red-soft: #fff0ef;
+  --green: #0f9f6e;
+  --orange: #ff7a00;
+  --shadow: 0 8px 30px rgba(37, 55, 82, .07);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.app-shell { width: min(100%, 820px); margin: 0 auto; min-height: 100vh; padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: max(14px, env(safe-area-inset-top)) 16px 12px; background: rgba(242,246,251,.93); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(228,234,241,.9); }
+.eyebrow { margin: 0 0 1px; color: var(--orange); font-size: 11px; font-weight: 900; letter-spacing: .13em; }
+h1 { margin: 0; font-size: 21px; letter-spacing: -.04em; }
+.install-btn { border: 0; border-radius: 999px; background: var(--ink); color: white; padding: 10px 13px; font-size: 13px; font-weight: 800; }
+main { padding: 12px; display: grid; gap: 12px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 19px; box-shadow: var(--shadow); }
+.port-panel, .date-panel, .tides-panel, .hourly-panel, .legend-panel, .tide-summary, .day-summary { padding: 16px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.section-head.compact { align-items: flex-end; margin-bottom: 13px; }
+.section-head strong { display: block; margin-top: 3px; font-size: 18px; letter-spacing: -.03em; }
+.section-label { display: block; color: var(--muted); font-size: 12px; font-weight: 750; }
+.text-btn { border: 0; background: transparent; color: var(--blue); font-size: 13px; font-weight: 800; padding: 6px; }
+.port-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s ease, opacity .2s ease, margin-top .2s ease; }
+.port-grid.open { max-height: 280px; opacity: 1; margin-top: 13px; }
+.port-btn { border: 1px solid var(--line); background: #f9fbfd; border-radius: 11px; padding: 10px 4px; color: #45546a; font-size: 13px; font-weight: 750; }
+.port-btn.active { color: white; border-color: var(--blue); background: var(--blue); }
+.date-picker-label { display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); border-radius: 10px; padding: 7px 9px; font-size: 12px; font-weight: 800; color: var(--blue); background: #f9fbfd; }
+.date-picker-label input { width: 22px; border: 0; background: transparent; color: transparent; padding: 0; }
+.date-strip { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-top: 13px; padding-bottom: 2px; }
+.date-strip::-webkit-scrollbar, .hourly-scroll::-webkit-scrollbar { display: none; }
+.date-btn { flex: 0 0 58px; border: 1px solid var(--line); border-radius: 13px; background: #f9fbfd; padding: 8px 5px 9px; text-align: center; color: #526078; }
+.date-btn span { display: block; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+.date-btn strong { font-size: 18px; }
+.date-btn.active { background: var(--blue); color: white; border-color: var(--blue); box-shadow: 0 7px 16px rgba(11,110,253,.2); }
+.date-btn.weekend span { color: #ec574d; }
+.date-btn.active span { color: rgba(255,255,255,.85); }
+.status-banner { margin: 0 2px; padding: 11px 13px; border-radius: 12px; font-size: 13px; font-weight: 700; line-height: 1.45; background: #fff8e8; color: #7a5600; border: 1px solid #f5df9d; }
+.status-banner.error { background: #fff0ef; color: #9d271f; border-color: #ffd2cf; }
+.hidden { display: none !important; }
+.summary-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 12px; }
+.summary-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.tide-name-row { display: flex; align-items: baseline; gap: 8px; margin-top: 2px; }
+.tide-name { font-size: 34px; line-height: 1; letter-spacing: -.06em; }
+.lunar-date { color: var(--muted); font-size: 12px; font-weight: 700; }
+.flow-box { min-width: 76px; border-radius: 15px; padding: 9px 10px; background: var(--blue-soft); text-align: right; }
+.flow-box span { display: block; color: #5f79a5; font-size: 10px; font-weight: 800; }
+.flow-box strong { color: var(--blue); font-size: 20px; }
+.flow-track { height: 7px; margin-top: 13px; background: #edf1f6; border-radius: 999px; overflow: hidden; }
+.flow-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #79b5ff, var(--blue)); transition: width .4s ease; }
+.fineprint { margin: 9px 0 0; color: #8a97a8; font-size: 10.5px; line-height: 1.45; }
+.day-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 8px; margin-top: 10px; }
+.day-metrics div { min-width: 0; }
+.day-metrics span { display: block; color: var(--muted); font-size: 10px; margin-bottom: 2px; }
+.day-metrics strong { font-size: 15px; white-space: nowrap; }
+.source-badge { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; background: #eef3f8; color: #6e7f94; font-size: 10px; font-weight: 800; }
+.tide-events { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; }
+.tide-event { border-radius: 14px; border: 1px solid var(--line); padding: 12px; min-height: 84px; }
+.tide-event.high { background: var(--red-soft); border-color: #ffd8d5; }
+.tide-event.low { background: var(--blue-soft); border-color: #d9e7ff; }
+.tide-event .type { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 900; }
+.tide-event.high .type, .tide-event.high .delta { color: var(--red); }
+.tide-event.low .type, .tide-event.low .delta { color: var(--blue); }
+.tide-event .time { margin-top: 4px; font-size: 25px; font-weight: 900; letter-spacing: -.05em; }
+.tide-event .delta { margin-top: 2px; font-size: 13px; font-weight: 850; }
+.loading-card { height: 84px; border-radius: 14px; background: linear-gradient(100deg,#f0f3f6 30%,#f8fafc 45%,#f0f3f6 60%); background-size: 220% 100%; animation: shimmer 1.3s infinite; }
+@keyframes shimmer { to { background-position-x: -220%; } }
+.hourly-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.hour-card { flex: 0 0 108px; border: 1px solid var(--line); border-radius: 15px; padding: 10px 9px; text-align: center; background: #fbfcfe; }
+.hour-card.nowish { border-color: #bcd6ff; background: #f2f7ff; }
+.hour-time { font-size: 11px; font-weight: 850; color: #63728a; }
+.weather-icon { font-size: 26px; line-height: 1.15; margin: 5px 0 2px; }
+.hour-temp { font-size: 20px; font-weight: 900; }
+.hour-desc { margin: 1px 0 8px; min-height: 28px; color: #5c6b80; font-size: 10px; line-height: 1.25; }
+.hour-details { display: grid; gap: 4px; text-align: left; }
+.hour-details div { display: flex; justify-content: space-between; gap: 4px; font-size: 9.5px; color: #748297; }
+.hour-details strong { color: #344156; font-size: 10px; }
+.legend-panel { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.legend { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 750; }
+.triangle.up { color: var(--red); }.triangle.down { color: var(--blue); }
+.data-source { flex: 1 1 100%; color: #97a1af; font-size: 10px; }
+footer { display: flex; align-items: center; justify-content: space-between; padding: 3px 18px 20px; color: #9aa5b4; font-size: 11px; }
+.install-dialog { border: 0; border-radius: 20px; padding: 0; width: min(90vw, 420px); box-shadow: 0 25px 80px rgba(0,0,0,.25); }
+.install-dialog::backdrop { background: rgba(10,19,31,.45); }
+.dialog-body { padding: 22px; }
+.dialog-body h2 { margin: 0 0 9px; font-size: 20px; }
+.dialog-body p { margin: 0 0 18px; color: #627189; font-size: 14px; line-height: 1.55; }
+.primary-btn { width: 100%; border: 0; border-radius: 12px; background: var(--blue); color: white; padding: 12px; font-weight: 850; }
+.empty-state { padding: 18px 10px; border-radius: 14px; background: #f8fafc; color: #758397; font-size: 12px; text-align: center; grid-column: 1 / -1; }
+@media (max-width: 620px) {
+  .port-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .summary-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) {
+  .topbar { padding-left: 12px; padding-right: 12px; }
+  main { padding: 9px; gap: 9px; }
+  .port-panel, .date-panel, .tides-panel, .hourly-panel, .legend-panel, .tide-summary, .day-summary { padding: 14px; }
+  .port-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tide-name { font-size: 31px; }
+}
+
+/* v2 additions */
+.top-actions { display:flex; align-items:center; gap:7px; }
+.icon-btn { width:39px; height:39px; border:1px solid var(--line); border-radius:999px; background:white; color:#43536a; font-size:18px; line-height:1; }
+.source-badge.official { background:#e9f8f2; color:#087a56; }
+.station-label { margin:-4px 0 11px; color:#7b8798; font-size:11px; font-weight:750; }
+.tide-event .type .height { margin-left:auto; color:#5f6c7d; font-size:11px; font-weight:850; }
+.input-label { display:block; color:#536174; font-size:12px; font-weight:800; margin:0 0 7px; }
+.api-key-input { width:100%; border:1px solid var(--line); border-radius:12px; padding:12px 13px; color:var(--ink); background:#fbfcfe; outline:none; }
+.api-key-input:focus { border-color:#9fc2ff; box-shadow:0 0 0 3px rgba(11,110,253,.09); }
+.key-state { min-height:20px; margin:8px 1px 12px; color:#a06a00; font-size:11px; font-weight:750; }
+.key-state.ok { color:#0f8b62; }
+.dialog-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.secondary-btn { border:1px solid var(--line); border-radius:12px; background:#f7f9fc; color:#59677b; padding:12px; font-weight:850; }
+.primary-btn.inline { width:auto; }
+.dialog-close { display:block; margin:10px auto -7px; }
