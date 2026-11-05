@@ -3,39 +3,50 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
-  <meta name="theme-color" content="#f5f7fb" />
+  <meta name="theme-color" content="#f4f7fb" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="출조체크" />
   <meta name="description" content="피캠스 출조 물때·날씨 - 전국 조석예보지점, 날씨, 바람, 파고, 강수" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icons/icon-180.png" />
-  <link rel="icon" href="icons/icon-192.png" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <link rel="manifest" href="manifest.webmanifest?v=6" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png?v=6" />
+  <link rel="icon" href="icons/icon-192.png?v=6" />
+  <link rel="stylesheet" href="styles.css?v=6.0.0" />
   <title>피캠스 출조체크</title>
 </head>
 <body>
 <div class="app-shell">
   <header class="topbar">
     <div class="title-wrap"><div class="brand">FICAMX</div><h1>출조 물때·날씨</h1></div>
-    <div class="top-actions"><button id="settingsBtn" class="round-btn" aria-label="설정">⚙</button><button id="installBtn" class="install-btn">홈화면 설치</button></div>
+    <div class="top-actions"><button id="settingsBtn" class="round-btn" type="button" aria-label="설정">⚙</button><button id="installBtn" class="install-btn" type="button">홈화면 설치</button></div>
   </header>
 
   <main>
     <section class="port-bar panel">
       <button id="portToggle" class="port-select" type="button"><strong id="selectedPortLabel">영목항</strong><span class="chev">⌄</span></button>
-      <div class="port-tools"><button id="searchPortBtn" class="tool-btn" aria-label="항구 검색">⌕</button><button id="favoriteBtn" class="tool-btn star" aria-label="즐겨찾기">☆</button></div>
+      <div class="port-tools"><button id="searchPortBtn" class="tool-btn search-tool" type="button" aria-label="항구 검색">⌕</button><button id="favoriteBtn" class="tool-btn star" type="button" aria-label="즐겨찾기">☆</button></div>
     </section>
 
-    <section class="date-line panel">
-      <div id="selectedDateLong" class="date-text"></div>
-      <label class="calendar-btn" aria-label="날짜 선택"><span>▣</span><input id="datePicker" type="date" /></label>
+    <section id="dateLine" class="date-line panel" aria-label="날짜 선택. 위아래로 밀거나 화살표를 누르세요.">
+      <div class="date-copy">
+        <div id="selectedDateLong" class="date-text"></div>
+        <div id="lunarDate" class="lunar-date"></div>
+      </div>
+      <div class="date-controls" aria-label="날짜 이동">
+        <button id="prevDateBtn" class="date-step" type="button" aria-label="전날">▲</button>
+        <button id="calendarBtn" class="calendar-btn" type="button" aria-label="달력 열기">▣</button>
+        <button id="nextDateBtn" class="date-step" type="button" aria-label="다음날">▼</button>
+      </div>
     </section>
 
     <section id="statusBanner" class="status hidden"></section>
 
     <section class="tide-card panel">
-      <div class="water-row"><div class="water-title"><strong id="tideName">-</strong><span id="lunarDate"></span></div><div class="flow-pill"><span>물흐름</span><strong id="flowPercent">-%</strong></div></div>
+      <div class="water-row">
+        <div class="water-title"><strong id="tideName">-</strong></div>
+        <div class="flow-pill"><span>물흐름</span><strong id="flowPercent">-%</strong></div>
+      </div>
       <div id="tideStationLabel" class="station-line"></div>
       <div id="tideEvents" class="tide-strip"></div>
     </section>
@@ -47,26 +58,45 @@
   </main>
 </div>
 
-<dialog id="portDialog" class="sheet">
-  <div class="sheet-body">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title-row"><h2>항구 선택</h2><button id="closePortDialog" class="sheet-close">닫기</button></div>
-    <div class="search-box"><span>⌕</span><input id="portSearch" type="search" placeholder="항구명 검색" autocomplete="off" /></div>
-    <div id="regionFilters" class="region-filters"></div>
-    <div id="favoriteSection" class="favorite-section"></div>
+<!-- 항구 선택: iPhone식 바텀시트 -->
+<div id="portSheet" class="sheet-backdrop hidden" aria-hidden="true">
+  <section id="portPanel" class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="portSheetTitle">
+    <div id="sheetDragZone" class="sheet-top-zone">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-title-row"><h2 id="portSheetTitle">항구 선택</h2><button id="closePortSheet" class="sheet-close" type="button">닫기</button></div>
+    </div>
+    <div class="sheet-search-sticky">
+      <div class="search-box"><span>⌕</span><input id="portSearch" type="search" inputmode="search" enterkeyhint="search" placeholder="항구명 검색" autocomplete="off" /></div>
+      <div id="regionFilters" class="region-filters"></div>
+      <div id="favoriteSection" class="favorite-section"></div>
+    </div>
     <div id="portList" class="port-list"></div>
-  </div>
-</dialog>
+  </section>
+</div>
+
+<!-- 자체 달력: 작고 선명한 터치형 팝업 -->
+<div id="calendarOverlay" class="calendar-overlay hidden" aria-hidden="true">
+  <section class="calendar-card" role="dialog" aria-modal="true" aria-labelledby="calendarTitle">
+    <div class="calendar-head">
+      <button id="calendarPrevMonth" class="calendar-nav" type="button" aria-label="이전 달">‹</button>
+      <strong id="calendarTitle"></strong>
+      <button id="calendarNextMonth" class="calendar-nav" type="button" aria-label="다음 달">›</button>
+    </div>
+    <div class="calendar-week"><span class="sun">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span class="sat">토</span></div>
+    <div id="calendarGrid" class="calendar-grid"></div>
+    <div class="calendar-foot"><button id="calendarToday" class="calendar-today" type="button">오늘</button><button id="calendarClose" class="calendar-close" type="button">닫기</button></div>
+  </section>
+</div>
 
 <dialog id="settingsDialog" class="dialog"><div class="dialog-body">
   <h2>설정</h2>
   <p>공식 조석 데이터는 GitHub에서 자동 갱신됩니다. 공유받은 사용자는 인증키를 입력하지 않아도 됩니다.</p>
-  <button id="refreshBtn" class="wide-btn">데이터 새로고침</button>
-  <button id="resetFavoritesBtn" class="wide-btn secondary">즐겨찾기 초기화</button>
-  <button id="closeSettingsDialog" class="text-btn">닫기</button>
+  <button id="refreshBtn" class="wide-btn" type="button">데이터 새로고침</button>
+  <button id="resetFavoritesBtn" class="wide-btn secondary" type="button">즐겨찾기 초기화</button>
+  <button id="closeSettingsDialog" class="text-btn" type="button">닫기</button>
 </div></dialog>
 
-<dialog id="installDialog" class="dialog"><div class="dialog-body"><h2>홈 화면에 설치</h2><p id="installGuide"></p><button id="closeInstallDialog" class="wide-btn">확인</button></div></dialog>
-<script src="app.js"></script>
+<dialog id="installDialog" class="dialog"><div class="dialog-body"><h2>홈 화면에 설치</h2><p id="installGuide"></p><button id="closeInstallDialog" class="wide-btn" type="button">확인</button></div></dialog>
+<script src="app.js?v=6.0.0"></script>
 </body>
 </html>
