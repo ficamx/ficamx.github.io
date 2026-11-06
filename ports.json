@@ -50,8 +50,8 @@
     "id": "namdang",
     "name": "남당항",
     "region": "서해",
-    "tideCode": "DT_0025",
-    "tideStation": "보령",
+    "tideCode": "SO_1260",
+    "tideStation": "방포항",
     "lat": 36.538,
     "lon": 126.4694,
     "favoriteDefault": true

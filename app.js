@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v10.0.0';
+const BUILD='v11.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -83,7 +83,6 @@ function renderHeader(){
   $('lunarDate').textContent=`(음력 ${w.lunar.month?`${w.lunar.month}월 `:''}${w.lunar.day}일)`;
   $('tideName').textContent=w.name;
   $('flowPercent').textContent=w.flow+'%';
-  $('tideStationLabel').textContent=`공식 조석 기준 · ${state.port?.tideStation||'-'} (${state.port?.tideCode||'-'})`;
   renderFavoriteButton();
 }
 function renderFavoriteButton(){const b=$('favoriteBtn');const yes=state.port&&isFavorite(state.port.id);b.textContent=yes?'★':'☆';b.classList.toggle('active',!!yes)}
@@ -99,14 +98,21 @@ function renderPortSheet(){
 
 async function stationData(code){if(state.stationCache.has(code))return state.stationCache.get(code);try{const v=await json(`data/tides/${code}.json?v=${Date.now()}`);state.stationCache.set(code,v);return v}catch{return null}}
 function renderTides(data){
-  const ds=iso(state.date),prev=iso(day(state.date,-1));const all=[];
-  for(const d of [prev,ds])for(const x of data?.days?.[d]||[])all.push(x);
+  const ds=iso(state.date), all=[];
+  for(const rows of Object.values(data?.days||{})) for(const x of rows||[]) all.push(x);
   all.sort((a,b)=>String(a.predcDt).localeCompare(String(b.predcDt)));
   const selected=all.filter(x=>String(x.predcDt).startsWith(ds));
   if(!selected.length){$('tideEvents').innerHTML='<div class="empty">이 날짜의 공식 조석 데이터가 아직 준비되지 않았습니다.</div>';return}
+  const ms=x=>new Date(String(x?.predcDt||'').replace(' ','T')).getTime();
+  const MAX_GAP=12*60*60*1000;
   $('tideEvents').innerHTML=selected.slice(0,4).map(ev=>{
-    const i=all.indexOf(ev),pr=i>0?all[i-1]:null,delta=pr?Math.round(Number(ev.predcTdlvVl)-Number(pr.predcTdlvVl)):null,hi=[1,3].includes(Number(ev.extrSe)),tm=String(ev.predcDt).slice(11,16);
-    return `<article class="tide-event ${hi?'high':'low'}"><div class="tide-time">${tm}</div><div class="tide-delta">${hi?'▲':'▼'} ${delta==null?'-':Math.abs(delta)}cm</div><div class="tide-height">${Math.round(Number(ev.predcTdlvVl))}cm</div></article>`;
+    const i=all.indexOf(ev),pr=i>0?all[i-1]:null,nx=i+1<all.length?all[i+1]:null;
+    let neighbor=null;
+    if(pr && Number.isFinite(ms(pr)) && Number.isFinite(ms(ev)) && ms(ev)-ms(pr)<=MAX_GAP) neighbor=pr;
+    else if(nx && Number.isFinite(ms(nx)) && Number.isFinite(ms(ev)) && ms(nx)-ms(ev)<=MAX_GAP) neighbor=nx;
+    const delta=neighbor?Math.abs(Math.round(Number(ev.predcTdlvVl)-Number(neighbor.predcTdlvVl))):null;
+    const hi=[1,3].includes(Number(ev.extrSe)),tm=String(ev.predcDt).slice(11,16),height=Math.round(Number(ev.predcTdlvVl));
+    return `<article class="tide-event ${hi?'high':'low'}"><div class="tide-time">${tm}</div><div class="tide-delta">${hi?'▲':'▼'} ${delta==null?'-':delta}</div><div class="tide-height">${height}</div></article>`;
   }).join('');
 }
 
@@ -127,8 +133,8 @@ function renderWeather(w,m){
     row('날씨','',hours.map(x=>`<div class="weather-cell weather-icon-cell"><div class="wx-emoji">${x.ico}</div><div class="wx-desc">${x.desc}</div></div>`).join('')),
     row('기온','℃',cells(hours.map(x=>Number.isFinite(x.temp)?`${Math.round(x.temp)}°`:''),'weather-cell weather-big')),
     row('강수','mm',cells(hours.map(x=>Number.isFinite(x.rain)&&x.rain>0?fmt(x.rain):''),'weather-cell weather-big')),
-    row('바람','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.wind)?fmt(x.wind):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'wind')}`),
-    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.gust)?fmt(x.gust):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'gust')}`),
+    row('바람','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.wind)?Math.round(x.wind):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'wind')}`),
+    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.gust)?Math.round(x.gust):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'gust')}`),
     row('풍향','',cells(hours.map(x=>Number.isFinite(x.dir)?`<span class="weather-arrow">${windArrow(x.dir)}</span>`:''),'weather-cell')),
     row('파고','m',cells(hours.map(x=>Number.isFinite(x.wave)?fmt(x.wave):''),'weather-cell weather-big'))
   ].join('');
