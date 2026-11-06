@@ -1,5 +1,5 @@
-const CACHE='ficamx-v6-20261105-1';
-const STATIC=['./','index.html?v=6.0.0','styles.css?v=6.0.0','app.js?v=6.0.0','ports.json?v=v6.0.0','manifest.webmanifest?v=6','icons/icon-180.png?v=6','icons/icon-192.png?v=6','icons/icon-512.png?v=6'];
+const CACHE='ficamx-v7-20261106-1';
+const STATIC=['./','index.html?v=7.0.0','styles.css?v=7.0.0','app.js?v=7.0.0','ports.json?v=v7.0.0','manifest.webmanifest?v=7','icons/icon-180.png?v=7','icons/icon-192.png?v=7','icons/icon-512.png?v=7'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>Promise.allSettled(STATIC.map(x=>c.add(x)))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE&&k.startsWith('ficamx-')).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
