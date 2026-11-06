@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v11.0.0';
+const BUILD='v12.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -96,7 +96,23 @@ function renderPortSheet(){
   $('portList').innerHTML=list.length?list.map(p=>`<div class="port-row"><button class="port-main" data-select="${p.id}"><strong>${esc(p.name)}</strong><span>${esc(p.region)}</span></button><button class="mini-star ${isFavorite(p.id)?'active':''}" data-star="${p.id}">${isFavorite(p.id)?'★':'☆'}</button></div>`).join(''):'<div class="empty">검색 결과가 없습니다.</div>';
 }
 
-async function stationData(code){if(state.stationCache.has(code))return state.stationCache.get(code);try{const v=await json(`data/tides/${code}.json?v=${Date.now()}`);state.stationCache.set(code,v);return v}catch{return null}}
+async function stationData(code){
+  // 조석 데이터는 GitHub Actions로 매일 갱신되므로 브라우저 메모리/서비스워커의 오래된 값을 쓰지 않습니다.
+  const url=`data/tides/${code}.json?v=${BUILD}-${Date.now()}`;
+  try{
+    const r=await fetch(url,{cache:'no-store',headers:{'Cache-Control':'no-cache','Pragma':'no-cache'}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return await r.json();
+  }catch(e){
+    // 일시적인 네트워크 오류일 때 한 번만 다시 시도합니다.
+    try{
+      await new Promise(resolve=>setTimeout(resolve,350));
+      const r=await fetch(`data/tides/${code}.json?retry=${Date.now()}`,{cache:'reload'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return await r.json();
+    }catch{return null}
+  }
+}
 function renderTides(data){
   const ds=iso(state.date), all=[];
   for(const rows of Object.values(data?.days||{})) for(const x of rows||[]) all.push(x);
@@ -221,6 +237,15 @@ function closeCalendar(){
   if($('portSheet').classList.contains('hidden')&&$('dateWheelSheet').classList.contains('hidden'))document.body.classList.remove('modal-open');
 }
 
+function scrollWeather(direction){
+  const scroller=$('weatherScroll');
+  if(!scroller)return;
+  const rootStyle=getComputedStyle(document.documentElement);
+  const timeW=parseFloat(rootStyle.getPropertyValue('--time-w'))||88;
+  const amount=Math.max(timeW*3, scroller.clientWidth*0.68);
+  scroller.scrollBy({left:direction*amount,behavior:'smooth'});
+}
+
 async function init(){
   state.ports=await json(`ports.json?v=${BUILD}`);const saved=localStorage.getItem('ficamxPort');state.port=state.ports.find(p=>p.id===saved)||state.ports.find(p=>p.id==='yeongmok')||state.ports[0];
   if(!localStorage.getItem('ficamxFavorites'))setFavorites(state.ports.filter(p=>p.favoriteDefault).map(p=>p.id));renderHeader();renderPortSheet();initDraggableSheet('sheetDragZone','portPanel','portSheet');initDraggableSheet('dateWheelDragZone','dateWheelPanel','dateWheelSheet');attachWheel('year');attachWheel('month');attachWheel('day');updateVisualViewport();load();
@@ -230,6 +255,7 @@ $('portToggle').onclick=()=>openPortSheet(false);$('searchPortBtn').onclick=()=>
 $('portSearch').oninput=e=>{state.query=e.target.value;renderPortSheet()};$('portSearch').onfocus=()=>setTimeout(ensureSearchVisible,120);$('regionFilters').onclick=e=>{const b=e.target.closest('[data-region]');if(b){state.region=b.dataset.region;renderPortSheet()}};
 $('portList').onclick=e=>{const s=e.target.closest('[data-select]'),f=e.target.closest('[data-star]');if(f){toggleFavorite(f.dataset.star);return}if(s)selectPort(s.dataset.select)};$('favoriteSection').onclick=e=>{const b=e.target.closest('[data-select]');if(b)selectPort(b.dataset.select)};
 $('prevDateBtn').onclick=()=>stepDate(-1);$('nextDateBtn').onclick=()=>stepDate(1);$('datePickerBtn').onclick=openDateWheel;$('closeDateWheel').onclick=closeDateWheel;$('wheelApplyBtn').onclick=applyWheelDate;$('wheelTodayBtn').onclick=()=>{const t=new Date();state.wheel.year=t.getFullYear();state.wheel.month=t.getMonth()+1;state.wheel.day=t.getDate();renderWheel('year',state.wheel.year);renderWheel('month',state.wheel.month);renderWheel('day',state.wheel.day)};
+$('weatherPrevBtn').onclick=()=>scrollWeather(-1);$('weatherNextBtn').onclick=()=>scrollWeather(1);
 $('calendarBtn').onclick=openCalendar;$('calendarPrevMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()-1,1,12);renderCalendar()};$('calendarNextMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()+1,1,12);renderCalendar()};$('calendarToday').onclick=()=>{selectDateValue(new Date());closeCalendar()};$('calendarClose').onclick=closeCalendar;$('calendarGrid').onclick=e=>{const b=e.target.closest('[data-date]');if(b){selectDateValue(new Date(b.dataset.date+'T12:00:00'));closeCalendar()}};$('calendarOverlay').onclick=e=>{if(e.target===$('calendarOverlay'))closeCalendar()};
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.deferred=e});$('installBtn').onclick=async()=>{if(state.deferred){state.deferred.prompt();await state.deferred.userChoice;state.deferred=null;return}const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);$('installGuide').textContent=ios?'Safari의 공유 버튼(□↑) → 홈 화면에 추가를 누르세요.':'Chrome 메뉴(⋮) → 앱 설치 또는 홈 화면에 추가를 누르세요.';$('installDialog').showModal()};$('closeInstallDialog').onclick=()=>$('installDialog').close();
 window.visualViewport?.addEventListener('resize',updateVisualViewport);window.visualViewport?.addEventListener('scroll',updateVisualViewport);window.visualViewport?.addEventListener('resize',()=>{if(document.activeElement===$('portSearch'))ensureSearchVisible()});window.addEventListener('resize',updateVisualViewport);

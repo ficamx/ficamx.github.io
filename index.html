@@ -11,10 +11,10 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <link rel="manifest" href="manifest.webmanifest?v=11" />
-  <link rel="apple-touch-icon" href="icons/icon-180.png?v=11" />
-  <link rel="icon" href="icons/icon-192.png?v=11" />
-  <link rel="stylesheet" href="styles.css?v=10.0.0" />
+  <link rel="manifest" href="manifest.webmanifest?v=12" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png?v=12" />
+  <link rel="icon" href="icons/icon-192.png?v=12" />
+  <link rel="stylesheet" href="styles.css?v=12.0.0" />
   <title>피캠스 출조체크</title>
 </head>
 <body>
@@ -65,7 +65,10 @@
     <section class="weather-section panel">
       <div class="weather-head">
         <strong>날씨 · 바람 · 파고 · 강수</strong>
-        <span>좌우로 밀기</span>
+        <div class="weather-nav" aria-label="시간대 이동">
+          <button id="weatherPrevBtn" class="weather-nav-btn" type="button" aria-label="이전 시간대">‹</button>
+          <button id="weatherNextBtn" class="weather-nav-btn" type="button" aria-label="다음 시간대">›</button>
+        </div>
       </div>
       <div class="weather-scroll" id="weatherScroll">
         <div id="weatherGrid" class="weather-grid"></div>
@@ -145,6 +148,6 @@
   </div>
 </dialog>
 
-<script src="app.js?v=11.0.0"></script>
+<script src="app.js?v=12.0.0"></script>
 </body>
 </html>
