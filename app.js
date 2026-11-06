@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v14.0.0';
+const BUILD='v15.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -269,7 +269,7 @@ async function init(){
 $('portToggle').onclick=()=>openPortSheet(false);$('searchPortBtn').onclick=()=>openPortSheet(true);$('favoriteBtn').onclick=()=>{if(state.port)toggleFavorite(state.port.id)};$('closePortSheet').onclick=closePortSheet;
 $('portSearch').oninput=e=>{state.query=e.target.value;renderPortSheet()};$('portSearch').onfocus=()=>setTimeout(ensureSearchVisible,120);$('regionFilters').onclick=e=>{const b=e.target.closest('[data-region]');if(b){state.region=b.dataset.region;renderPortSheet()}};
 $('portList').onclick=e=>{const s=e.target.closest('[data-select]'),f=e.target.closest('[data-star]');if(f){toggleFavorite(f.dataset.star);return}if(s)selectPort(s.dataset.select)};$('favoriteSection').onclick=e=>{const b=e.target.closest('[data-select]');if(b)selectPort(b.dataset.select)};
-$('prevDateBtn').onclick=()=>stepDate(-1);$('nextDateBtn').onclick=()=>stepDate(1);$('datePickerBtn').onclick=openDateWheel;$('closeDateWheel').onclick=closeDateWheel;$('wheelApplyBtn').onclick=applyWheelDate;$('wheelTodayBtn').onclick=()=>{const t=new Date();state.wheel.year=t.getFullYear();state.wheel.month=t.getMonth()+1;state.wheel.day=t.getDate();renderWheel('year',state.wheel.year);renderWheel('month',state.wheel.month);renderWheel('day',state.wheel.day)};
+$('prevDateBtn').onclick=()=>stepDate(1);$('nextDateBtn').onclick=()=>stepDate(-1);$('datePickerBtn').onclick=openDateWheel;$('closeDateWheel').onclick=closeDateWheel;$('wheelApplyBtn').onclick=applyWheelDate;$('wheelTodayBtn').onclick=()=>{const t=new Date();state.wheel.year=t.getFullYear();state.wheel.month=t.getMonth()+1;state.wheel.day=t.getDate();renderWheel('year',state.wheel.year);renderWheel('month',state.wheel.month);renderWheel('day',state.wheel.day)};
 $('weatherPrevBtn').onclick=()=>scrollWeather(-1);$('weatherNextBtn').onclick=()=>scrollWeather(1);
 $('calendarBtn').onclick=openCalendar;$('calendarPrevMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()-1,1,12);renderCalendar()};$('calendarNextMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()+1,1,12);renderCalendar()};$('calendarToday').onclick=()=>{selectDateValue(new Date());closeCalendar()};$('calendarClose').onclick=closeCalendar;$('calendarGrid').onclick=e=>{const b=e.target.closest('[data-date]');if(b){selectDateValue(new Date(b.dataset.date+'T12:00:00'));closeCalendar()}};$('calendarOverlay').onclick=e=>{if(e.target===$('calendarOverlay'))closeCalendar()};
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.deferred=e});$('installBtn').onclick=async()=>{if(state.deferred){state.deferred.prompt();await state.deferred.userChoice;state.deferred=null;return}const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);$('installGuide').textContent=ios?'Safari의 공유 버튼(□↑) → 홈 화면에 추가를 누르세요.':'Chrome 메뉴(⋮) → 앱 설치 또는 홈 화면에 추가를 누르세요.';$('installDialog').showModal()};$('closeInstallDialog').onclick=()=>$('installDialog').close();
