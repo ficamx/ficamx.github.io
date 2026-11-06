@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v9.0.0';
+const BUILD='v10.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -35,25 +35,39 @@ function wx(c){
   if([80,81,82].includes(c))return['🌦️','소나기'];if([95,96,99].includes(c))return['⛈️','뇌우'];return['🌥️','날씨'];
 }
 function windArrow(d){return['↓','↙','←','↖','↑','↗','→','↘'][Math.round((Number(d)||0)/45)%8]}
+function mixHex(a,b,t){
+  const pa=a.replace('#',''),pb=b.replace('#','');
+  const ar=parseInt(pa.slice(0,2),16),ag=parseInt(pa.slice(2,4),16),ab=parseInt(pa.slice(4,6),16);
+  const br=parseInt(pb.slice(0,2),16),bg=parseInt(pb.slice(2,4),16),bb=parseInt(pb.slice(4,6),16);
+  const m=(x,y)=>Math.round(x+(y-x)*t).toString(16).padStart(2,'0');
+  return `#${m(ar,br)}${m(ag,bg)}${m(ab,bb)}`;
+}
 function windColor(v){
-  // 첨부된 Windy 색상표를 기준으로 한 m/s 팔레트
+  // Windy 참고 팔레트. 속도값 사이도 연속 보간해 색이 자연스럽게 변합니다.
   const n=Math.max(0,Number(v)||0);
-  if(n<1.5)return '#f4f4f4';
-  if(n<2.5)return '#ececec';
-  if(n<3.5)return '#93e3f8';
-  if(n<4.5)return '#13ccfe';
-  if(n<5.5)return '#00d3de';
-  if(n<6.5)return '#00e96e';
-  if(n<7.5)return '#00ec36';
-  if(n<8.5)return '#89d300';
-  if(n<9.5)return '#b9c700';
-  if(n<10.5)return '#dfb800';
-  if(n<11.5)return '#f1aa00';
-  if(n<12.5)return '#ff9a03';
-  if(n<13.5)return '#ff8909';
-  if(n<14.5)return '#ff760f';
-  if(n<15.5)return '#ff6215';
-  return '#ff4930';
+  const stops=[
+    [0,'#f3f3f3'],[2,'#eeeeee'],[3,'#bfeaf4'],[4,'#69d8ee'],[5,'#15cfd7'],
+    [6,'#00e86f'],[7,'#00e83b'],[8,'#75df00'],[9,'#b8d200'],[10,'#dfc100'],
+    [11,'#efae00'],[12,'#ff9900'],[13,'#ff7d0b'],[14,'#ff6413'],[16,'#ff4930']
+  ];
+  if(n<=stops[0][0])return stops[0][1];
+  for(let i=1;i<stops.length;i++){
+    if(n<=stops[i][0]){
+      const [v0,c0]=stops[i-1],[v1,c1]=stops[i];
+      return mixHex(c0,c1,(n-v0)/(v1-v0));
+    }
+  }
+  return stops[stops.length-1][1];
+}
+function windGradient(hours,key){
+  const n=hours.length;
+  if(!n)return 'none';
+  const stops=[];
+  hours.forEach((h,i)=>{
+    const pos=((i+.5)/n)*100;
+    stops.push(`${windColor(h[key])} ${pos.toFixed(3)}%`);
+  });
+  return `linear-gradient(90deg, ${stops.join(', ')})`;
 }
 
 function favoriteIds(){try{return JSON.parse(localStorage.getItem('ficamxFavorites')||'[]')}catch{return[]}}
@@ -107,14 +121,14 @@ function renderWeather(w,m){
   if(!hours.length){grid.innerHTML='<div class="empty" style="padding:18px">선택 날짜의 시간별 날씨 예보가 아직 없습니다.</div>';return}
   grid.style.setProperty('--cols',hours.length);
   const cells=(items,cls='weather-cell')=>items.map(x=>`<div class="${cls}">${x}</div>`).join('');
-  const row=(label,unit,body)=>`<div class="weather-row"><div class="weather-label"><div>${label}${unit?`<small>${unit}</small>`:''}</div></div>${body}</div>`;
+  const row=(label,unit,body,extraClass='',style='')=>`<div class="weather-row ${extraClass}"${style?` style="${style}"`:''}><div class="weather-label"><div>${label}${unit?`<small>${unit}</small>`:''}</div></div>${body}</div>`;
   grid.innerHTML=[
     row('시간','',cells(hours.map(x=>x.hr),'weather-cell weather-time-cell')),
     row('날씨','',hours.map(x=>`<div class="weather-cell weather-icon-cell"><div class="wx-emoji">${x.ico}</div><div class="wx-desc">${x.desc}</div></div>`).join('')),
     row('기온','℃',cells(hours.map(x=>Number.isFinite(x.temp)?`${Math.round(x.temp)}°`:''),'weather-cell weather-big')),
     row('강수','mm',cells(hours.map(x=>Number.isFinite(x.rain)&&x.rain>0?fmt(x.rain):''),'weather-cell weather-big')),
-    row('바람','m/s',hours.map(x=>`<div class="weather-cell windbg" style="background:${windColor(x.wind)}">${Number.isFinite(x.wind)?fmt(x.wind):''}</div>`).join('')),
-    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg" style="background:${windColor(x.gust)}">${Number.isFinite(x.gust)?fmt(x.gust):''}</div>`).join('')),
+    row('바람','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.wind)?fmt(x.wind):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'wind')}`),
+    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg">${Number.isFinite(x.gust)?fmt(x.gust):''}</div>`).join(''),'wind-continuous',`--wind-gradient:${windGradient(hours,'gust')}`),
     row('풍향','',cells(hours.map(x=>Number.isFinite(x.dir)?`<span class="weather-arrow">${windArrow(x.dir)}</span>`:''),'weather-cell')),
     row('파고','m',cells(hours.map(x=>Number.isFinite(x.wave)?fmt(x.wave):''),'weather-cell weather-big'))
   ].join('');

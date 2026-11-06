@@ -29,3 +29,8 @@ main{width:100%;padding:10px 12px 18px;display:grid;gap:10px}.panel{width:100%;b
 .calendar-foot{display:flex;justify-content:space-between;gap:8px;margin-top:10px}.calendar-today,.calendar-close{border:0;border-radius:11px;padding:10px 16px;font-weight:900}.calendar-today{background:#eef4ff;color:var(--blue)}.calendar-close{background:var(--navy);color:#fff}
 /* PC에서도 휴대폰과 동일한 레이아웃을 중앙에 표시 */
 @media(min-width:521px){body{padding:18px 0}.app-shell{width:520px;max-width:520px;background:var(--bg);border-radius:26px;overflow:hidden;box-shadow:0 18px 54px rgba(25,48,78,.12)}}
+/* v10: Windy처럼 시간대 사이 색상을 연속 보간 */
+.weather-row.wind-continuous{position:relative;isolation:isolate;background:transparent}
+.weather-row.wind-continuous::before{content:"";position:absolute;left:var(--label-w);right:0;top:0;bottom:0;background:var(--wind-gradient);z-index:0;pointer-events:none}
+.weather-row.wind-continuous .weather-cell{position:relative;z-index:1;background:transparent}
+.weather-row.wind-continuous .weather-label{position:sticky;z-index:4;background:#fff}
