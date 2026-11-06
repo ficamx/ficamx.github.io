@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f4f7fb" />
+  <meta name="theme-color" content="#f3f7fb" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="출조체크" />
-  <meta name="description" content="피캠스 출조 물때·날씨 - 전국 항구의 물때, 조석, 날씨, 바람, 돌풍, 파고, 강수" />
+  <meta name="description" content="피캠스 출조 물때·날씨 - 전국 항구 물때, 조석, 날씨, 바람, 돌풍, 파고, 강수" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <link rel="manifest" href="manifest.webmanifest?v=7" />
-  <link rel="apple-touch-icon" href="icons/icon-180.png?v=7" />
-  <link rel="icon" href="icons/icon-192.png?v=7" />
-  <link rel="stylesheet" href="styles.css?v=7.0.0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="manifest" href="manifest.webmanifest?v=8" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png?v=8" />
+  <link rel="icon" href="icons/icon-192.png?v=8" />
+  <link rel="stylesheet" href="styles.css?v=8.0.0" />
   <title>피캠스 출조체크</title>
 </head>
 <body>
@@ -22,9 +24,7 @@
       <div class="brand">FICAMX</div>
       <h1>출조 물때·날씨</h1>
     </div>
-    <div class="top-actions">
-      <button id="installBtn" class="install-btn" type="button">홈화면 설치</button>
-    </div>
+    <button id="installBtn" class="install-btn" type="button">홈화면 설치</button>
   </header>
 
   <main>
@@ -39,17 +39,14 @@
       </div>
     </section>
 
-    <section class="date-panel panel">
-      <button id="prevDateBtn" class="nav-arrow" type="button" aria-label="전날">‹</button>
-      <button id="datePickerBtn" class="date-center" type="button" aria-label="날짜 선택">
-        <div id="selectedDateLong" class="date-text"></div>
-        <div class="date-subline">
-          <span id="lunarDate" class="lunar-inline"></span>
-          <span class="date-drop" aria-hidden="true">▾</span>
-        </div>
+    <section class="date-panel panel" aria-label="날짜 선택">
+      <button id="prevDateBtn" class="date-step up" type="button" aria-label="전날">▲</button>
+      <button id="datePickerBtn" class="date-main" type="button" aria-label="년 월 일 선택">
+        <span id="selectedDateLong" class="date-text"></span>
+        <span id="lunarDate" class="lunar-inline"></span>
+        <span class="date-drop" aria-hidden="true">▼</span>
       </button>
-      <button id="nextDateBtn" class="nav-arrow" type="button" aria-label="다음날">›</button>
-      <button id="calendarBtn" class="calendar-btn" type="button" aria-label="달력 열기">🗓</button>
+      <button id="nextDateBtn" class="date-step down" type="button" aria-label="다음날">▼</button>
     </section>
 
     <section id="statusBanner" class="status hidden"></section>
@@ -64,14 +61,18 @@
     </section>
 
     <section class="weather-section panel">
-      <div class="weather-head"><strong>날씨 · 바람 · 파고 · 강수</strong><span>3시간 간격 · 좌우로 밀기</span></div>
-      <div class="weather-table-wrap">
+      <div class="weather-head">
+        <strong>날씨 · 바람 · 파고 · 강수</strong>
+        <span>좌우로 밀기</span>
+      </div>
+      <div class="weather-scroll" id="weatherScroll">
         <div id="weatherGrid" class="weather-grid"></div>
       </div>
     </section>
   </main>
 </div>
 
+<!-- 항구 선택 바텀시트 -->
 <div id="portSheet" class="sheet-backdrop hidden" aria-hidden="true">
   <section id="portPanel" class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="portSheetTitle">
     <div id="sheetDragZone" class="sheet-top-zone">
@@ -87,48 +88,43 @@
   </section>
 </div>
 
+<!-- iPhone 알람식 날짜 룰렛 -->
 <div id="dateWheelSheet" class="sheet-backdrop hidden" aria-hidden="true">
   <section id="dateWheelPanel" class="sheet-panel wheel-panel" role="dialog" aria-modal="true" aria-labelledby="dateWheelTitle">
     <div id="dateWheelDragZone" class="sheet-top-zone">
       <div class="sheet-handle" aria-hidden="true"></div>
       <div class="sheet-title-row"><h2 id="dateWheelTitle">날짜 선택</h2><button id="closeDateWheel" class="sheet-close" type="button">닫기</button></div>
     </div>
-    <div class="wheel-wrap">
-      <div class="wheel-highlight"></div>
+    <div class="wheel-picker" aria-label="년 월 일 룰렛 선택">
+      <div class="wheel-highlight" aria-hidden="true"></div>
       <div class="wheel-col">
-        <div class="wheel-head">년</div>
-        <select id="wheelYear" size="5" class="wheel-select"></select>
+        <div class="wheel-col-title">년</div>
+        <div id="wheelYear" class="wheel-scroller" role="listbox"></div>
       </div>
       <div class="wheel-col">
-        <div class="wheel-head">월</div>
-        <select id="wheelMonth" size="5" class="wheel-select"></select>
+        <div class="wheel-col-title">월</div>
+        <div id="wheelMonth" class="wheel-scroller" role="listbox"></div>
       </div>
       <div class="wheel-col">
-        <div class="wheel-head">일</div>
-        <select id="wheelDay" size="5" class="wheel-select"></select>
+        <div class="wheel-col-title">일</div>
+        <div id="wheelDay" class="wheel-scroller" role="listbox"></div>
       </div>
     </div>
     <div class="wheel-actions">
-      <button id="wheelTodayBtn" class="calendar-today" type="button">오늘</button>
-      <button id="wheelApplyBtn" class="calendar-close" type="button">적용</button>
+      <button id="wheelTodayBtn" class="wheel-secondary" type="button">오늘</button>
+      <button id="wheelApplyBtn" class="wheel-primary" type="button">선택</button>
     </div>
   </section>
 </div>
 
-<div id="calendarOverlay" class="calendar-overlay hidden" aria-hidden="true">
-  <section class="calendar-card" role="dialog" aria-modal="true" aria-labelledby="calendarTitle">
-    <div class="calendar-head">
-      <button id="calendarPrevMonth" class="calendar-nav" type="button" aria-label="이전 달">‹</button>
-      <strong id="calendarTitle"></strong>
-      <button id="calendarNextMonth" class="calendar-nav" type="button" aria-label="다음 달">›</button>
-    </div>
-    <div class="calendar-week"><span class="sun">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span class="sat">토</span></div>
-    <div id="calendarGrid" class="calendar-grid"></div>
-    <div class="calendar-foot"><button id="calendarToday" class="calendar-today" type="button">오늘</button><button id="calendarClose" class="calendar-close" type="button">닫기</button></div>
-  </section>
-</div>
+<dialog id="installDialog" class="dialog">
+  <div class="dialog-body">
+    <h2>홈 화면에 설치</h2>
+    <p id="installGuide"></p>
+    <button id="closeInstallDialog" class="wide-btn" type="button">확인</button>
+  </div>
+</dialog>
 
-<dialog id="installDialog" class="dialog"><div class="dialog-body"><h2>홈 화면에 설치</h2><p id="installGuide"></p><button id="closeInstallDialog" class="wide-btn" type="button">확인</button></div></dialog>
-<script src="app.js?v=7.0.0"></script>
+<script src="app.js?v=8.0.0"></script>
 </body>
 </html>
