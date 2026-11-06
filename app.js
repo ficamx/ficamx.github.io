@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v8.0.0';
+const BUILD='v9.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -11,6 +11,7 @@ const state={
 function pad(n){return String(n).padStart(2,'0')}
 function iso(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
 function day(d,n){const x=new Date(d);x.setDate(x.getDate()+n);x.setHours(12,0,0,0);return x}
+function same(a,b){return iso(a)===iso(b)}
 function mod(a,n){return((a%n)+n)%n}
 function fromStoredDate(){const s=localStorage.getItem('ficamxDate');const d=s?new Date(s+'T12:00:00'):new Date();d.setHours(12,0,0,0);return d}
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
@@ -34,14 +35,25 @@ function wx(c){
   if([80,81,82].includes(c))return['🌦️','소나기'];if([95,96,99].includes(c))return['⛈️','뇌우'];return['🌥️','날씨'];
 }
 function windArrow(d){return['↓','↙','←','↖','↑','↗','→','↘'][Math.round((Number(d)||0)/45)%8]}
-function windColor(v,max=18){
-  const n=Math.max(0,Math.min(max,Number(v)||0));
-  const stops=[
-    [0,195,80,74],[4,185,88,63],[7,142,78,58],[10,92,82,58],[13,54,90,61],[16,28,93,62],[18,5,88,60]
-  ];
-  let a=stops[0],b=stops[stops.length-1];for(let i=0;i<stops.length-1;i++){if(n>=stops[i][0]&&n<=stops[i+1][0]){a=stops[i];b=stops[i+1];break}}
-  const t=a[0]===b[0]?0:(n-a[0])/(b[0]-a[0]);const lerp=(x,y)=>Math.round(x+(y-x)*t);
-  return `hsl(${lerp(a[1],b[1])} ${lerp(a[2],b[2])}% ${lerp(a[3],b[3])}%)`;
+function windColor(v){
+  // 첨부된 Windy 색상표를 기준으로 한 m/s 팔레트
+  const n=Math.max(0,Number(v)||0);
+  if(n<1.5)return '#f4f4f4';
+  if(n<2.5)return '#ececec';
+  if(n<3.5)return '#93e3f8';
+  if(n<4.5)return '#13ccfe';
+  if(n<5.5)return '#00d3de';
+  if(n<6.5)return '#00e96e';
+  if(n<7.5)return '#00ec36';
+  if(n<8.5)return '#89d300';
+  if(n<9.5)return '#b9c700';
+  if(n<10.5)return '#dfb800';
+  if(n<11.5)return '#f1aa00';
+  if(n<12.5)return '#ff9a03';
+  if(n<13.5)return '#ff8909';
+  if(n<14.5)return '#ff760f';
+  if(n<15.5)return '#ff6215';
+  return '#ff4930';
 }
 
 function favoriteIds(){try{return JSON.parse(localStorage.getItem('ficamxFavorites')||'[]')}catch{return[]}}
@@ -102,7 +114,7 @@ function renderWeather(w,m){
     row('기온','℃',cells(hours.map(x=>Number.isFinite(x.temp)?`${Math.round(x.temp)}°`:''),'weather-cell weather-big')),
     row('강수','mm',cells(hours.map(x=>Number.isFinite(x.rain)&&x.rain>0?fmt(x.rain):''),'weather-cell weather-big')),
     row('바람','m/s',hours.map(x=>`<div class="weather-cell windbg" style="background:${windColor(x.wind)}">${Number.isFinite(x.wind)?fmt(x.wind):''}</div>`).join('')),
-    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg" style="background:${windColor(x.gust,22)}">${Number.isFinite(x.gust)?fmt(x.gust):''}</div>`).join('')),
+    row('돌풍','m/s',hours.map(x=>`<div class="weather-cell windbg" style="background:${windColor(x.gust)}">${Number.isFinite(x.gust)?fmt(x.gust):''}</div>`).join('')),
     row('풍향','',cells(hours.map(x=>Number.isFinite(x.dir)?`<span class="weather-arrow">${windArrow(x.dir)}</span>`:''),'weather-cell')),
     row('파고','m',cells(hours.map(x=>Number.isFinite(x.wave)?fmt(x.wave):''),'weather-cell weather-big'))
   ].join('');
@@ -125,7 +137,7 @@ function stepDate(n){selectDateValue(day(state.date,n))}
 
 function updateVisualViewport(){const vv=window.visualViewport;const h=vv?vv.height:window.innerHeight;const top=vv?vv.offsetTop:0;document.documentElement.style.setProperty('--visual-vh',`${h}px`);document.documentElement.style.setProperty('--visual-top',`${top}px`)}
 function openSheet(backdropId,panelId){const s=$(backdropId),p=$(panelId);s.classList.remove('hidden');s.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');updateVisualViewport();requestAnimationFrame(()=>p.classList.add('open'))}
-function closeSheet(backdropId,panelId){const s=$(backdropId),p=$(panelId);p.classList.remove('open');p.style.transform='';p.style.transition='';setTimeout(()=>{s.classList.add('hidden');s.setAttribute('aria-hidden','true');if($('portSheet').classList.contains('hidden')&&$('dateWheelSheet').classList.contains('hidden'))document.body.classList.remove('modal-open')},180)}
+function closeSheet(backdropId,panelId){const s=$(backdropId),p=$(panelId);p.classList.remove('open');p.style.transform='';p.style.transition='';setTimeout(()=>{s.classList.add('hidden');s.setAttribute('aria-hidden','true');if($('portSheet').classList.contains('hidden')&&$('dateWheelSheet').classList.contains('hidden')&&$('calendarOverlay').classList.contains('hidden'))document.body.classList.remove('modal-open')},180)}
 function initDraggableSheet(handleId,panelId,backdropId){
   const zone=$(handleId),panel=$(panelId),back=$(backdropId);
   const start=e=>{if(e.target.closest('button,input'))return;state.sheetDrag={id:e.pointerId,y:e.clientY,t:performance.now(),dy:0};zone.setPointerCapture?.(e.pointerId);panel.style.transition='none'};
@@ -162,6 +174,33 @@ function openDateWheel(){state.wheel.year=state.date.getFullYear();state.wheel.m
 function closeDateWheel(){closeSheet('dateWheelSheet','dateWheelPanel')}
 function applyWheelDate(){selectDateValue(new Date(state.wheel.year,state.wheel.month-1,state.wheel.day,12));closeDateWheel()}
 
+/* 달력: 날짜마다 물때 / 물흐름 표시 */
+function renderCalendar(){
+  const base=state.calendarMonth||new Date(state.date.getFullYear(),state.date.getMonth(),1,12);
+  const y=base.getFullYear(),m=base.getMonth();
+  $('calendarTitle').textContent=`${y}년 ${m+1}월`;
+  const first=new Date(y,m,1,12),start=first.getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();
+  let html='';
+  for(let i=0;i<42;i++){
+    let dnum,cur=true,dateObj;
+    if(i<start){dnum=prevDays-start+i+1;dateObj=new Date(y,m-1,dnum,12);cur=false}
+    else if(i>=start+days){dnum=i-start-days+1;dateObj=new Date(y,m+1,dnum,12);cur=false}
+    else{dnum=i-start+1;dateObj=new Date(y,m,dnum,12)}
+    const dow=dateObj.getDay(),sel=same(dateObj,state.date),today=same(dateObj,new Date()),wi=waterInfo(dateObj);
+    html+=`<button class="cal-day ${cur?'':'outside'} ${sel?'selected':''} ${today?'today':''} ${dow===0?'sun':''} ${dow===6?'sat':''}" data-date="${iso(dateObj)}" type="button"><span class="cal-num">${dnum}</span><span class="cal-tide">${wi.name}</span><span class="cal-flow">${wi.flow}%</span></button>`;
+  }
+  $('calendarGrid').innerHTML=html;
+}
+function openCalendar(){
+  state.calendarMonth=new Date(state.date.getFullYear(),state.date.getMonth(),1,12);
+  renderCalendar();
+  const o=$('calendarOverlay');o.classList.remove('hidden');o.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');
+}
+function closeCalendar(){
+  const o=$('calendarOverlay');o.classList.add('hidden');o.setAttribute('aria-hidden','true');
+  if($('portSheet').classList.contains('hidden')&&$('dateWheelSheet').classList.contains('hidden'))document.body.classList.remove('modal-open');
+}
+
 async function init(){
   state.ports=await json(`ports.json?v=${BUILD}`);const saved=localStorage.getItem('ficamxPort');state.port=state.ports.find(p=>p.id===saved)||state.ports.find(p=>p.id==='yeongmok')||state.ports[0];
   if(!localStorage.getItem('ficamxFavorites'))setFavorites(state.ports.filter(p=>p.favoriteDefault).map(p=>p.id));renderHeader();renderPortSheet();initDraggableSheet('sheetDragZone','portPanel','portSheet');initDraggableSheet('dateWheelDragZone','dateWheelPanel','dateWheelSheet');attachWheel('year');attachWheel('month');attachWheel('day');updateVisualViewport();load();
@@ -171,6 +210,7 @@ $('portToggle').onclick=()=>openPortSheet(false);$('searchPortBtn').onclick=()=>
 $('portSearch').oninput=e=>{state.query=e.target.value;renderPortSheet()};$('portSearch').onfocus=()=>setTimeout(ensureSearchVisible,120);$('regionFilters').onclick=e=>{const b=e.target.closest('[data-region]');if(b){state.region=b.dataset.region;renderPortSheet()}};
 $('portList').onclick=e=>{const s=e.target.closest('[data-select]'),f=e.target.closest('[data-star]');if(f){toggleFavorite(f.dataset.star);return}if(s)selectPort(s.dataset.select)};$('favoriteSection').onclick=e=>{const b=e.target.closest('[data-select]');if(b)selectPort(b.dataset.select)};
 $('prevDateBtn').onclick=()=>stepDate(-1);$('nextDateBtn').onclick=()=>stepDate(1);$('datePickerBtn').onclick=openDateWheel;$('closeDateWheel').onclick=closeDateWheel;$('wheelApplyBtn').onclick=applyWheelDate;$('wheelTodayBtn').onclick=()=>{const t=new Date();state.wheel.year=t.getFullYear();state.wheel.month=t.getMonth()+1;state.wheel.day=t.getDate();renderWheel('year',state.wheel.year);renderWheel('month',state.wheel.month);renderWheel('day',state.wheel.day)};
+$('calendarBtn').onclick=openCalendar;$('calendarPrevMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()-1,1,12);renderCalendar()};$('calendarNextMonth').onclick=()=>{state.calendarMonth=new Date(state.calendarMonth.getFullYear(),state.calendarMonth.getMonth()+1,1,12);renderCalendar()};$('calendarToday').onclick=()=>{selectDateValue(new Date());closeCalendar()};$('calendarClose').onclick=closeCalendar;$('calendarGrid').onclick=e=>{const b=e.target.closest('[data-date]');if(b){selectDateValue(new Date(b.dataset.date+'T12:00:00'));closeCalendar()}};$('calendarOverlay').onclick=e=>{if(e.target===$('calendarOverlay'))closeCalendar()};
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.deferred=e});$('installBtn').onclick=async()=>{if(state.deferred){state.deferred.prompt();await state.deferred.userChoice;state.deferred=null;return}const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);$('installGuide').textContent=ios?'Safari의 공유 버튼(□↑) → 홈 화면에 추가를 누르세요.':'Chrome 메뉴(⋮) → 앱 설치 또는 홈 화면에 추가를 누르세요.';$('installDialog').showModal()};$('closeInstallDialog').onclick=()=>$('installDialog').close();
 window.visualViewport?.addEventListener('resize',updateVisualViewport);window.visualViewport?.addEventListener('scroll',updateVisualViewport);window.visualViewport?.addEventListener('resize',()=>{if(document.activeElement===$('portSearch'))ensureSearchVisible()});window.addEventListener('resize',updateVisualViewport);
 if('serviceWorker' in navigator){navigator.serviceWorker.register(`sw.js?v=${BUILD}`,{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
