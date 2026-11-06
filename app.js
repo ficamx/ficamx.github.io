@@ -1,11 +1,12 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v12.0.0';
+const BUILD='v13.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
-  wheel:{year:null,month:null,day:null,timers:{},programmatic:false}
+  wheel:{year:null,month:null,day:null,timers:{},programmatic:false},
+  dateRangeChecked:false
 };
 
 function pad(n){return String(n).padStart(2,'0')}
@@ -157,8 +158,22 @@ function renderWeather(w,m){
 }
 
 async function load(){
-  if(!state.port)return;const seq=++state.seq,ds=iso(state.date);showStatus('정보를 불러오는 중입니다.');
-  const tide=await stationData(state.port.tideCode);if(seq!==state.seq)return;renderTides(tide);
+  if(!state.port)return;const seq=++state.seq;showStatus('정보를 불러오는 중입니다.');
+  const tide=await stationData(state.port.tideCode);if(seq!==state.seq)return;
+
+  // PC/브라우저에 예전에 저장된 날짜가 조석 데이터 범위 밖이면 첫 실행 때만 자동 보정합니다.
+  if(!state.dateRangeChecked && tide?.meta?.from && tide?.meta?.to){
+    state.dateRangeChecked=true;
+    const from=new Date(tide.meta.from+'T12:00:00'),to=new Date(tide.meta.to+'T12:00:00');
+    if(state.date<from || state.date>to){
+      const today=new Date();today.setHours(12,0,0,0);
+      state.date=today<from?from:today>to?to:today;
+      localStorage.setItem('ficamxDate',iso(state.date));
+      renderHeader();
+    }
+  }
+
+  const ds=iso(state.date);renderTides(tide);
   let lat=Number(state.port.lat),lon=Number(state.port.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)){lat=Number(tide?.meta?.lat);lon=Number(tide?.meta?.lon)}
   if(!Number.isFinite(lat)||!Number.isFinite(lon)){renderWeather(null,null);showStatus('공식 조석은 표시되지만 이 지점의 좌표 데이터가 아직 준비되지 않았습니다.');return}
   const wu=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m&wind_speed_unit=ms&timezone=Asia%2FSeoul&start_date=${ds}&end_date=${ds}`;
