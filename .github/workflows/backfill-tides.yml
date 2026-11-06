@@ -1,0 +1,56 @@
+name: Backfill past tide data
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Start date (YYYY-MM-DD)"
+        required: true
+        default: "2026-10-01"
+      end_date:
+        description: "End date (YYYY-MM-DD, max 45 days)"
+        required: true
+        default: "2026-10-31"
+      force:
+        description: "Re-download dates that already have data"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ficamx-tide-data-write
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Backfill official KHOA tide forecasts
+        env:
+          KHOA_SERVICE_KEY: ${{ secrets.KHOA_SERVICE_KEY }}
+          START_DATE: ${{ inputs.start_date }}
+          END_DATE: ${{ inputs.end_date }}
+          FORCE: ${{ inputs.force }}
+        run: python scripts/backfill_tides.py
+
+      - name: Commit backfilled data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tides
+          if git diff --cached --quiet; then
+            echo "No tide data changes"
+          else
+            git commit -m "Backfill official tide data ${{ inputs.start_date }} to ${{ inputs.end_date }}"
+            git push
+          fi
