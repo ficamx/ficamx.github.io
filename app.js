@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id);
 const DOW=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const FLOW={1:12,2:27,3:45,4:63,5:74,6:78,7:79,8:80,9:76,10:71,11:62,12:51,13:39,14:25,15:12};
-const BUILD='v13.0.0';
+const BUILD='v14.0.0';
 const WHEEL_ITEM_H=54;
 const state={
   ports:[],port:null,date:fromStoredDate(),deferred:null,seq:0,region:'전체',query:'',stationCache:new Map(),sheetDrag:null,
@@ -14,7 +14,7 @@ function iso(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDat
 function day(d,n){const x=new Date(d);x.setDate(x.getDate()+n);x.setHours(12,0,0,0);return x}
 function same(a,b){return iso(a)===iso(b)}
 function mod(a,n){return((a%n)+n)%n}
-function fromStoredDate(){const s=localStorage.getItem('ficamxDate');const d=s?new Date(s+'T12:00:00'):new Date();d.setHours(12,0,0,0);return d}
+function fromStoredDate(){const d=new Date();d.setHours(12,0,0,0);return d}
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function fmt(v,n=1){const x=Number(v);return Number.isFinite(x)?x.toFixed(n):''}
 async function json(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
