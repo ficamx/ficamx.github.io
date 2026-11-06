@@ -1,0 +1,44 @@
+/* v16: 물때/물흐름 영역 간격 및 비율 조정 */
+.water-row{
+  align-items:flex-end;
+  gap:12px;
+  padding-top:2px;
+}
+.water-title strong{
+  font-size:clamp(42px,11.5vw,58px);
+  line-height:.92;
+}
+.flow-pill{
+  position:relative;
+  min-width:76px;
+  padding:5px 10px 6px;
+  border-radius:13px;
+  text-align:center;
+}
+.flow-pill span{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:calc(100% + 4px);
+  display:block;
+  font-size:11px;
+  line-height:1;
+  white-space:nowrap;
+  color:#667da6;
+  font-weight:900;
+  text-align:center;
+}
+.flow-pill strong{
+  font-size:27px;
+  line-height:1;
+}
+.tide-strip{
+  margin-top:14px;
+}
+@media(max-width:390px){
+  .water-title strong{font-size:48px}
+  .flow-pill{min-width:72px;padding:5px 9px 6px}
+  .flow-pill strong{font-size:25px}
+  .flow-pill span{font-size:10px}
+  .tide-strip{margin-top:12px}
+}
