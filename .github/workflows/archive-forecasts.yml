@@ -1,0 +1,50 @@
+name: Archive fishing forecast snapshots
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "35 3,9,15,21 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ficamx-forecast-archive
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Archive Open-Meteo forecast snapshots
+        env:
+          OPEN_METEO_API_KEY: ${{ secrets.OPEN_METEO_API_KEY }}
+          OPEN_METEO_WEATHER_URL: ${{ vars.OPEN_METEO_WEATHER_URL }}
+          OPEN_METEO_MARINE_URL: ${{ vars.OPEN_METEO_MARINE_URL }}
+        run: |
+          if [ -z "$OPEN_METEO_WEATHER_URL" ]; then
+            unset OPEN_METEO_WEATHER_URL
+          fi
+          if [ -z "$OPEN_METEO_MARINE_URL" ]; then
+            unset OPEN_METEO_MARINE_URL
+          fi
+          python scripts/archive_forecasts.py
+
+      - name: Commit forecast history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/forecast-history
+          if git diff --cached --quiet; then
+            echo "No forecast data changes"
+          else
+            git commit -m "Archive fishing forecast snapshot"
+            git push
+          fi
