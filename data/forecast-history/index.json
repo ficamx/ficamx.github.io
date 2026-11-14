@@ -1,9 +1,9 @@
 {
   "started_at": "2026-11-12T19:40:47+09:00",
   "schema": 1,
-  "last_snapshot": "2026-11-14T13:25:08+09:00",
-  "last_path": "data/forecast-history/2026/11/14/1325.json",
-  "snapshot_count": 8,
+  "last_snapshot": "2026-11-14T19:15:29+09:00",
+  "last_path": "data/forecast-history/2026/11/14/1915.json",
+  "snapshot_count": 9,
   "port_count": 43,
   "forecast_days": 7,
   "interval_hours": 3,
